@@ -30,6 +30,7 @@ class collectl inherits collectl::params {
            command => '/bin/sed -i \'s/  $graphiteMyHost=(!$graphiteFqdnFlag) ? `hostname` : `hostname -f`;/   $graphiteMyHost=(!$graphiteFqdnFlag) ? `hostname -s` : `hostname -f`;/\' /usr/share/collectl/graphite.ph',
            require => Package['collectl']  ,
            notify => Service['collectl'],
+           onlyif => "/bin/grep -c '`hostname`' /usr/share/collectl/graphite.ph > /dev/null",
     } 
     
     file { "/var/log/collectl":
